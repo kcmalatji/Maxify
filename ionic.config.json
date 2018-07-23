@@ -1,0 +1,8 @@
+{
+  "name": "maxify",
+  "app_id": "b13211e8",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}
