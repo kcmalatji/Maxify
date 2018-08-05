@@ -19,7 +19,8 @@ export class NewTripPage {
   }
 
   Preview(){
-    
+  
+    this.closeTrip();
 
   }
   closeTrip(){
