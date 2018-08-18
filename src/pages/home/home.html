@@ -8,19 +8,16 @@
 </ion-header>
 
 <ion-content >
- <div id="map"></div>
-<div id="map" style="width:400px;height:400px;background:yellow"></div>
 
-<script>
-function myMap() {
-var mapOptions = {
-    center: new google.maps.LatLng(51.5, -0.12),
-    zoom: 10,
-    mapTypeId: google.maps.MapTypeId.HYBRID
-}
-var map = new google.maps.Map(document.getElementById("map"), mapOptions);
-}
-</script>
+ <h3>My Google Maps Demo</h3>
+ <!--The div element for the map -->
+<h1>Lat: {{ lat }}</h1> 
+<h1>Lng: {{ longt }}</h1> 
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDko72d25mmAF6ob_JA3uEiVLcD3oUCBLo&callback=initMap"></script>
+ <div #map id="map"></div>
+
+
+
+
+
 </ion-content>
