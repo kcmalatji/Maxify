@@ -27,13 +27,13 @@ export class HomePage {
 
 
 googleMap(){
-  
+
  let map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: -34.397, lng: 150.644},
     zoom: 15
   });
   let infoWindow = new google.maps.InfoWindow();
-  
+
 
   // Try HTML5 geolocation.
   if (navigator.geolocation) {
@@ -42,7 +42,7 @@ googleMap(){
         lat: position.coords.latitude,
         lng: position.coords.longitude
       };
-      
+
       infoWindow.setPosition(pos);
       infoWindow.setContent('You are Here');
       infoWindow.open(map);
@@ -100,22 +100,22 @@ ionViewDidLoad(){
 //     this.longt = resp.coords.longitude;
 //     this.initMap(this.lat,this.longt);
 //     console.log('lat: ' + resp.coords.latitude + ', lon: ' + resp.coords.longitude);
-  
+
 //    }).catch((error) => {
 //      console.log('Error getting location', error);
 //    });
 //    const watch = this.geolocation.watchPosition().subscribe(pos => {
 //     console.log('lat: ' + pos.coords.latitude + ', lon: ' + pos.coords.longitude);
 //   });
-  
-   
+
+
 //  }
 
 //  initMap(s,t){
 //   console.log(s);
 //   console.log(t);
- 
-  
+
+
 //    let latlang = new google.maps.LatLng(-26.2020007,28.0522048);
 //    let mapOptions ={
 //      center : latlang,
