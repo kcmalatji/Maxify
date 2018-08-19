@@ -20,6 +20,7 @@ public latitude: number;
     public longitude: number;
     public searchControl: FormControl;
     public zoom: number;
+    public destinationAddress:any
 
  constructor(public navCtrl: NavController,private ngZone: NgZone, private mapsAPILoader: MapsAPILoader) {
      this.searchControl = new FormControl();
@@ -32,13 +33,13 @@ public latitude: number;
 
 
 googleMap(){
-
+  this.searchControl = new FormControl();
  let map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: -34.397, lng: 150.644},
     zoom: 15
   });
-  let infoWindow = new google.maps.InfoWindow();
 
+  let infoWindow = new google.maps.InfoWindow();
 
   // Try HTML5 geolocation.
   if (navigator.geolocation) {
@@ -48,11 +49,14 @@ googleMap(){
         lng: position.coords.longitude
 
       };
-
       var carposition = {
         lat: position.coords.latitude+0.000002,
         lng: position.coords.longitude-0.02
       };
+      // var destination = {
+      //   lat: this.latitude,
+      //   lng: this.longitude
+      // };
       var lineSymbol = {
         path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
       };
@@ -86,6 +90,8 @@ googleMap(){
 
    let marker: google.maps.Marker;
     marker = new google.maps.Marker({map:map,position:pos,icon:mapicon});
+    let destmarker: google.maps.Marker;
+     //destmarker = new google.maps.Marker({map:map,position:dest,icon:mapicon});
     let carmarker: google.maps.Marker;
     carmarker = new google.maps.Marker({map:map,position:carposition,icon:caricon});
       map.setCenter(pos);
@@ -95,6 +101,7 @@ googleMap(){
   } else {
     // Browser doesn't support Geolocation
     this.handleLocationError(false, infoWindow, map.getCenter());
+
   }
 }
 
@@ -108,6 +115,11 @@ handleLocationError(browserHasGeolocation, infoWindow, pos) {
 
 ionViewDidLoad(){
       this.searchControl = new FormControl();
+      let map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: -34.397, lng: 150.644},
+        zoom: 15
+      });
+      let infoWindow = new google.maps.InfoWindow();
 
     //load Places Autocomplete
       this.mapsAPILoader.load().then(() => {
@@ -123,18 +135,54 @@ ionViewDidLoad(){
                   //verify result
                   if (place.geometry === undefined || place.geometry === null) {
                       return;
+
                   }else{
 
                   }
 
                   //set latitude, longitude and zoom
+                  this.destinationAddress=place.formatted_address;
+
                   this.latitude = place.geometry.location.lat();
                   this.longitude = place.geometry.location.lng();
-                  this.zoom = 12;
+                  if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function(position) {
+                      var pos = {
+                        lat: place.geometry.location.lat(),
+                        lng: place.geometry.location.lng()
+
+                      };
+                      console.log(pos.lat)
+                      let desticon:any={
+                        url:'./../../assets/icon/map-marker-icon-2-300x300.png',
+                        scaledSize:new google.maps.Size(25,25),
+                        origin:new google.maps.Point(0,0),
+                        anchor:new google.maps.Point(0,0)
+                      };
+                   let destmarker: google.maps.Marker;
+                   destmarker = new google.maps.Marker({map:map,position:pos,icon:desticon});
+
+
+                    }, function() {
+
+                    });
+                  } else {
+                    // Browser doesn't support Geolocation
+                    this.handleLocationError(false, infoWindow, map.getCenter());
+
+                  }
+
+       // this.zoom = 12;
               });
+
           });
       });
+
   this.googleMap();
+
+
+;
 }
+
 
 }

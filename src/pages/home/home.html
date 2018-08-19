@@ -9,7 +9,7 @@
 
 <ion-content class="cards-bg">
 
-    <ion-item class="absolute">
+    <ion-item class="absolute" *ngIf="latitude==null">
         <ion-label floating>Where to?</ion-label>
         <ion-input id="txtHome" type="text"></ion-input>
     </ion-item>
@@ -20,12 +20,12 @@
   <!--<input class="absolute" type="text" placeholder="Destination"/>-->
   <div #map id="map"></div>
 
-    <ion-card class="adv-map" position="bottom">
-
-     
+    <ion-card class="adv-map" position="bottom" *ngIf="latitude">
 
 
-      <ion-item id="stats" >
+
+
+      <ion-item >
       <ion-row>
         <ion-col>
         <ion-icon color="secondary" large item-start name='md-car'></ion-icon>
@@ -42,7 +42,10 @@
       </ion-item>
       <ion-item>
         <h2>Destination</h2>
-        <p class="secondary">1 Avenue Faux, 75010 Paris, France</p>
+        <p class="secondary">
+          {{destinationAddress}}
+        </p>
+
       </ion-item>
       <ion-item actions>
         <span ion-text item-start color="secondary" class="item-bold">6 min</span>
