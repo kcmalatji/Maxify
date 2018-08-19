@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Home</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="cards-bg">
+   
+    <ion-item class="absolute">
+        <ion-label floating>Where to?</ion-label>
+        <ion-input id="txtHome" type="text"></ion-input>
+    </ion-item>
+
+    <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom">
+        <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+      </agm-map>
+  <!--<input class="absolute" type="text" placeholder="Destination"/>-->
+  <div #map id="map"></div>
+  
+    <ion-card class="adv-map" position="bottom">
+        
+            
+             
+        
+      <ion-item >
+      <ion-row>
+        <ion-col>
+        <ion-icon color="secondary" large item-start name='md-car'></ion-icon>
+        <p>Maxify</p>
+        <p>R20 - R50</p>
+      </ion-col>
+      <ion-col></ion-col>
+      <ion-col>
+        <ion-icon color="subtle" large item-start name='ios-car'></ion-icon>
+        <p>MegaMaxy</p>
+        <p>R70 - R150</p>
+      </ion-col>
+      </ion-row>
+      </ion-item>
+      <ion-item>
+        <h2>Destination</h2>
+        <p color="secondary">1 Avenue Faux, 75010 Paris, France</p>
+      </ion-item>
+      <ion-item actions>
+        <span ion-text item-start color="secondary" class="item-bold">6 min</span>
+        <span ion-text item-start color="primary"><h6>arrival time</h6></span>
+        <button ion-button color="secondary" css="large" clear item-end icon-start>
+          <ion-icon  css="large" name='md-checkmark-circle'></ion-icon>
+          <span  css="large" color="secondary">Request Maxify</span>
+        </button>
+      </ion-item>
+    
+    </ion-card>
+    
+    
+   
+
+
+</ion-content>

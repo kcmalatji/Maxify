@@ -1,0 +1,41 @@
+page-home {
+ #map{
+  height: 100% !important;
+  z-index: -1;
+  position: relative;
+ }
+ .absolute {
+    color: #2980b9;
+  }
+
+  ion-card.adv-map{
+    font-size: 0.7em !important;
+    z-index: 1;
+    position: absolute;
+    bottom: -40px;
+  }
+  
+  ion-icon {
+    font-size: 30px; //Preferred size here
+}
+
+.large {
+    font-size: 60px; //Preferred size here
+}
+  button[fab].fab-map {
+    top: calc(100% - 35px);
+    z-index: 50;
+  }
+  
+  .item-bold {
+    font-weight: bold;
+  }
+  
+  ion-content.cards-bg {
+    background-color: #f4f4f7;
+  }
+  
+  
+  
+  
+}
