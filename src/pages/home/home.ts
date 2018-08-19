@@ -1,74 +1,7 @@
-// import { Component , ViewChild, ElementRef} from '@angular/core';
-// import { NavController } from 'ionic-angular';
-// import { Geolocation } from '@ionic-native/geolocation';
-
-
-
-// @Component({
-//   selector: 'page-home',
-//   templateUrl: 'home.html'
-// })
-// export class HomePage {
-
-//   lat : number;
-//   longt: number;
-
-//   @ViewChild('map') mapElement: ElementRef;
-//   map: any;
-//   geoInfo:any={
-//     resp:'',
-//     data:''
-// };
-
-
-//   constructor(public navCtrl: NavController,private geolocation: Geolocation) {
- 
-  
-//   }
-  
-//   ionViewDidLoad(){
-//     geolocation: Geolocation
-//         this.geolocation.getCurrentPosition().then((resp) => {
-//       this.geoInfo.resp=JSON.stringify(resp);
-//        resp.coords.latitude;
-//        resp.coords.longitude;
-//        this.lat = (resp.coords.latitude);
-//        this.longt =(resp.coords.longitude);
-//        this.loadMap(resp.coords.latitude,resp.coords.longitude);
-// console.log(resp.coords.latitude)
-// console.log(resp.coords.longitude)
-
-//   }).catch((error) => {
-//       console.log('Error getting location', error);
-//       this.geoInfo.resp='Error getting location';
-//   });
-
-//   }
-
-//   loadMap(s,t){
- 
-//     let latLng = new google.maps.LatLng(s, t);
- 
-//     let mapOptions = {
-//       center: latLng,
-//       zoom: 18,
-//       mapTypeId: google.maps.MapTypeId.ROADMAP
-
-    
-//     }
-
-//     this.map2 = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-//     let marker: google.maps.Marker;
-//     marker = new google.maps.Marker({map:this.map,position:latLng});
-    
- 
-//   }
-// }
-
-
 import { Component, ViewChild } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
+
 @Component({
  selector: 'page-home',
  templateUrl: 'home.html'
@@ -76,53 +9,122 @@ import { Geolocation } from '@ionic-native/geolocation';
 
 export class HomePage {
 
-  lat : number;
-  longt: number;
-@ViewChild('map') mapElement;
-map : any;
-  geoInfo:any={
-    resp:'',
-    data:''
-};
- constructor(public navCtrl: NavController,private geolocation: Geolocation) {
+//   lat : any;
+//   longt: any;
+//  @ViewChild('map') mapElement;
+ map : any;
+//   geoInfo:any={
+//     resp:'',
+//     data:''
+// };
+
+
+
+ constructor(public navCtrl: NavController) {
 
  }
 
- ionViewDidLoad(){
-  geolocation: Geolocation
-          this.geolocation.getCurrentPosition().then((resp) => {
-        this.geoInfo.resp=JSON.stringify(resp);
-         resp.coords.latitude;
-         resp.coords.longitude;
-         this.lat = (resp.coords.latitude);
-         this.longt =(resp.coords.longitude);
-         this.initMap(resp.coords.latitude,resp.coords.longitude);
+
+
+googleMap(){
   
+ let map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: -34.397, lng: 150.644},
+    zoom: 15
+  });
+  let infoWindow = new google.maps.InfoWindow();
   
-    }).catch((error) => {
-        console.log('Error getting location', error);
-        this.geoInfo.resp='Error getting location';
+
+  // Try HTML5 geolocation.
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var pos = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+      
+      infoWindow.setPosition(pos);
+      infoWindow.setContent('You are Here');
+      infoWindow.open(map);
+      map.setCenter(pos);
+    }, function() {
+      this.handleLocationError(true, infoWindow, map.getCenter());
     });
+  } else {
+    // Browser doesn't support Geolocation
+    this.handleLocationError(false, infoWindow, map.getCenter());
+  }
+}
+
+handleLocationError(browserHasGeolocation, infoWindow, pos) {
+  infoWindow.setPosition(pos);
+  infoWindow.setContent(browserHasGeolocation ?
+                        'Error: The Geolocation service failed.' :
+                        'Error: Your browser doesn\'t support geolocation.');
+  infoWindow.open(this.map);
+}
+
+ionViewDidLoad(){
+  this.googleMap();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//  ionViewDidLoad(){
+//    interface Coordinates {
+
+// };
+
+
+// //geolocation: Geolocation
+//   this.geolocation.getCurrentPosition().then((resp) => {
+
+//     this.lat = resp.coords.latitude;
+//     this.longt = resp.coords.longitude;
+//     this.initMap(this.lat,this.longt);
+//     console.log('lat: ' + resp.coords.latitude + ', lon: ' + resp.coords.longitude);
+  
+//    }).catch((error) => {
+//      console.log('Error getting location', error);
+//    });
+//    const watch = this.geolocation.watchPosition().subscribe(pos => {
+//     console.log('lat: ' + pos.coords.latitude + ', lon: ' + pos.coords.longitude);
+//   });
+  
    
- }
+//  }
 
- initMap(s,t){
-  console.log(s);
-  console.log(t);
-  let me=navigator.geolocation.getCurrentPosition(function myfunction(position) {
-    var pos = {
-      lat: position.coords.latitude,
-      lng: position.coords.longitude
-    };})
-   let latlang = new google.maps.LatLng(-26.2020262, 28.0521884);
-   let mapOptions ={
-     center : latlang,
-     zoom: 15
+//  initMap(s,t){
+//   console.log(s);
+//   console.log(t);
+ 
+  
+//    let latlang = new google.maps.LatLng(-26.2020007,28.0522048);
+//    let mapOptions ={
+//      center : latlang,
+//      zoom: 15
 
-   };
+//    };
 
-   this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-   let marker: google.maps.Marker;
-   marker = new google.maps.Marker({map:this.map,position:latlang});
- }
+//    this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
+//    let marker: google.maps.Marker;
+//    marker = new google.maps.Marker({map:this.map,position:latlang});
+//  }
 }
