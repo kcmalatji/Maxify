@@ -77,8 +77,6 @@ constructor(public navCtrl: NavController, private mapsAPILoader: MapsAPILoader,
       center : latlang,
       zoom: 15,
       disableDefaultUI: true
-
-     
     };
 
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
