@@ -12,10 +12,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 })
 
 export class HomePage {
-
-
- map : any;
-
+map:any
 public latitude: number;
     public longitude: number;
     public searchControl: FormControl;
@@ -32,7 +29,7 @@ public latitude: number;
 
 
 
-googleMap(){
+googleMap(destination){
   this.searchControl = new FormControl();
  let map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: -34.397, lng: 150.644},
@@ -53,10 +50,7 @@ googleMap(){
         lat: position.coords.latitude+0.000002,
         lng: position.coords.longitude-0.02
       };
-      // var destination = {
-      //   lat: this.latitude,
-      //   lng: this.longitude
-      // };
+
       var lineSymbol = {
         path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
       };
@@ -84,6 +78,12 @@ googleMap(){
     origin:new google.maps.Point(0,0),
     anchor:new google.maps.Point(0,0)
   }
+       let desticon:any={
+                        url:'./../../assets/icon/street-view-filled.png',
+                        scaledSize:new google.maps.Size(25,25),
+                        origin:new google.maps.Point(0,0),
+                        anchor:new google.maps.Point(0,0)
+                      };
 
   // Define a symbol using a predefined path (an arrow)
   // supplied by the Google Maps JavaScript API.
@@ -91,7 +91,7 @@ googleMap(){
    let marker: google.maps.Marker;
     marker = new google.maps.Marker({map:map,position:pos,icon:mapicon});
     let destmarker: google.maps.Marker;
-     //destmarker = new google.maps.Marker({map:map,position:dest,icon:mapicon});
+    destmarker = new google.maps.Marker({map:map,position:destination,icon:desticon});
     let carmarker: google.maps.Marker;
     carmarker = new google.maps.Marker({map:map,position:carposition,icon:caricon});
       map.setCenter(pos);
@@ -142,43 +142,24 @@ ionViewDidLoad(){
 
                   //set latitude, longitude and zoom
                   this.destinationAddress=place.formatted_address;
+var g=place.geometry.location.lat();
+var f=place.geometry.location.lng();
+                  this.latitude =g;
+                  this.longitude =f;
+                  var pos = {
+                    lat: g,
+                    lng: f
 
-                  this.latitude = place.geometry.location.lat();
-                  this.longitude = place.geometry.location.lng();
-                  if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(function(position) {
-                      var pos = {
-                        lat: place.geometry.location.lat(),
-                        lng: place.geometry.location.lng()
+                  };
+                  this.googleMap(pos);
 
-                      };
-                      console.log(pos.lat)
-                      let desticon:any={
-                        url:'./../../assets/icon/map-marker-icon-2-300x300.png',
-                        scaledSize:new google.maps.Size(25,25),
-                        origin:new google.maps.Point(0,0),
-                        anchor:new google.maps.Point(0,0)
-                      };
-                   let destmarker: google.maps.Marker;
-                   destmarker = new google.maps.Marker({map:map,position:pos,icon:desticon});
-
-
-                    }, function() {
-
-                    });
-                  } else {
-                    // Browser doesn't support Geolocation
-                    this.handleLocationError(false, infoWindow, map.getCenter());
-
-                  }
-
-       // this.zoom = 12;
+       this.zoom = 12;
               });
 
           });
       });
 
-  this.googleMap();
+
 
 
 ;
