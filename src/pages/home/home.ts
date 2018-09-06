@@ -18,27 +18,18 @@ public latitude: number;
     public searchControl: FormControl;
     public zoom: number;
     public destinationAddress:any
+    public googleload:any
+    public currentAddress_lat:any
+    public currentAddress_lon:any
+
+
 
  constructor(public navCtrl: NavController,private ngZone: NgZone, private mapsAPILoader: MapsAPILoader) {
      this.searchControl = new FormControl();
-
-
-
-
  }
 
-
-
 googleMap(destination){
-  this.searchControl = new FormControl();
- let map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: -34.397, lng: 150.644},
-    zoom: 15
-  });
-
-  let infoWindow = new google.maps.InfoWindow();
-
-  // Try HTML5 geolocation.
+   // Try HTML5 geolocation.
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
       var pos = {
@@ -46,79 +37,21 @@ googleMap(destination){
         lng: position.coords.longitude
 
       };
-      var carposition = {
-        lat: position.coords.latitude+0.000002,
-        lng: position.coords.longitude-0.02
-      };
-
-      var lineSymbol = {
-        path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
-      };
-      // Create the polyline and add the symbol via the 'icons' property.
-      var line = new google.maps.Polyline({
-
-        path: [carposition, pos],
-        icons: [{
-          icon: lineSymbol,
-          offset: '100%'
-        }],
-        map: map
-      });
+      this.currentAddress_lat=position.coords.latitude;
+      this.currentAddress_lon=position.coords.longitude;
 
 
-   let mapicon:any={
-     url:'./../../assets/icon/map-marker-icon-2-300x300.png',
-     scaledSize:new google.maps.Size(25,25),
-     origin:new google.maps.Point(0,0),
-     anchor:new google.maps.Point(0,0)
-   }
-   let caricon:any={
-    url:'./../../assets/icon/car.png',
-    scaledSize:new google.maps.Size(40,25),
-    origin:new google.maps.Point(0,0),
-    anchor:new google.maps.Point(0,0)
-  }
-       let desticon:any={
-                        url:'./../../assets/icon/street-view-filled.png',
-                        scaledSize:new google.maps.Size(25,25),
-                        origin:new google.maps.Point(0,0),
-                        anchor:new google.maps.Point(0,0)
-                      };
 
-  // Define a symbol using a predefined path (an arrow)
-  // supplied by the Google Maps JavaScript API.
-
-   let marker: google.maps.Marker;
-    marker = new google.maps.Marker({map:map,position:pos,icon:mapicon});
-    let destmarker: google.maps.Marker;
-    destmarker = new google.maps.Marker({map:map,position:destination,icon:desticon});
-    let carmarker: google.maps.Marker;
-    carmarker = new google.maps.Marker({map:map,position:carposition,icon:caricon});
-      map.setCenter(pos);
-    }, function() {
-      this.handleLocationError(true, infoWindow, map.getCenter());
-    });
-  } else {
+  })} else {
     // Browser doesn't support Geolocation
-    this.handleLocationError(false, infoWindow, map.getCenter());
+
 
   }
-}
-
-handleLocationError(browserHasGeolocation, infoWindow, pos) {
-  infoWindow.setPosition(pos);
-  infoWindow.setContent(browserHasGeolocation ?
-                        'Error: The Geolocation service failed.' :
-                        'Error: Your browser doesn\'t support geolocation.');
-  infoWindow.open(this.map);
 }
 
 ionViewDidLoad(){
       this.searchControl = new FormControl();
-      let map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: -34.397, lng: 150.644},
-        zoom: 15
-      });
+
       let infoWindow = new google.maps.InfoWindow();
 
     //load Places Autocomplete
@@ -127,6 +60,7 @@ ionViewDidLoad(){
           let autocomplete = new google.maps.places.Autocomplete(nativeHomeInputBox, {
               types: ["address"]
           });
+         
           autocomplete.addListener("place_changed", () => {
               this.ngZone.run(() => {
                   //get the place result
@@ -142,8 +76,8 @@ ionViewDidLoad(){
 
                   //set latitude, longitude and zoom
                   this.destinationAddress=place.formatted_address;
-var g=place.geometry.location.lat();
-var f=place.geometry.location.lng();
+                  var g=place.geometry.location.lat();
+                  var f=place.geometry.location.lng();
                   this.latitude =g;
                   this.longitude =f;
                   var pos = {
@@ -153,7 +87,7 @@ var f=place.geometry.location.lng();
                   };
                   this.googleMap(pos);
 
-       this.zoom = 12;
+
               });
 
           });
